@@ -52,10 +52,12 @@ pipeline{
         stage("Docker Build & Push"){
             steps{
                 script{
+                    dir(''){
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
                        sh "docker build -t rameshkumarverma/virtual-browser:latest ."
                        // sh "docker tag uber rameshkumarverma/uber:latest "
                        sh "docker push rameshkumarverma/virtual-browser:latest"
+                       }
                     }
                 }
             }
