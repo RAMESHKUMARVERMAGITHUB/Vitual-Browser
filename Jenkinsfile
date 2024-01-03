@@ -52,7 +52,7 @@ pipeline{
         stage("Docker Build & Push"){
             steps{
                 script{
-                    dir(''){
+                    dir('/.docker/firefox/'){
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
                        sh "docker build -t rameshkumarverma/virtual-browser:latest ."
                        // sh "docker tag uber rameshkumarverma/uber:latest "
@@ -67,9 +67,16 @@ pipeline{
                 sh "trivy image rameshkumarverma/virtual-browser:latest > trivyimage.txt"
             }
         }
-        stage("deploy_docker"){
-            steps{
-                sh "docker run -d --name website -p 8085:80 rameshkumarverma/cafe-app:latest"
+        // stage("deploy_docker"){
+        //     steps{
+        //         sh "docker run -d --name website -p 8085:80 rameshkumarverma/cafe-app:latest"
+        //     }
+        // }
+        stage("Deploy"){
+            steps {
+                echo "Deploying the container"
+                sh "docker-compose down && docker-compose up -d"
+                
             }
         }
         // stage('Deploy to kubernets'){
