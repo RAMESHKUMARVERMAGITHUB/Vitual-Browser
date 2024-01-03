@@ -52,7 +52,7 @@ pipeline{
         stage("Docker Build & Push"){
             steps{
                 script{
-                    dir('/.docker/firefox/'){
+                    dir('/.docker/firefox'){
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
                        sh "docker build -t rameshkumarverma/virtual-browser:latest ."
                        // sh "docker tag uber rameshkumarverma/uber:latest "
