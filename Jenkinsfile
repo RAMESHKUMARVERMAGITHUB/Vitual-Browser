@@ -15,14 +15,14 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/RAMESHKUMARVERMAGITHUB/Cafe-App.git'
+                git branch: 'main', url: 'https://github.com/RAMESHKUMARVERMAGITHUB/Vitual-Browser.git'
             }
         }
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=cafe-app \
-                    -Dsonar.projectKey=cafe-app'''
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=virtual-browser \
+                    -Dsonar.projectKey=virtual-browser'''
                 }
             }
         }
@@ -53,16 +53,16 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh "docker build -t rameshkumarverma/cafe-app:latest ."
+                       sh "docker build -t rameshkumarverma/virtual-browser:latest ."
                        // sh "docker tag uber rameshkumarverma/uber:latest "
-                       sh "docker push rameshkumarverma/cafe-app:latest"
+                       sh "docker push rameshkumarverma/virtual-browser:latest"
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image rameshkumarverma/cafe-app:latest > trivyimage.txt"
+                sh "trivy image rameshkumarverma/virtual-browser:latest > trivyimage.txt"
             }
         }
         stage("deploy_docker"){
